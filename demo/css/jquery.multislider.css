@@ -1,0 +1,216 @@
+span.slidetooltip {
+      position: absolute;
+      width: 90px;
+      height: 20px;
+      line-height: 20px;
+      padding: 5px;
+      font-size: 14px;
+      text-align: center;
+      color: rgb(113, 157, 171);
+      background: #33CC66;
+      border: 4px solid #33CC66;
+      border-radius: 5px;
+      text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
+      box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
+}
+span.slidetooltip:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #33CC66  transparent transparent transparent;
+      top: 34px;
+}
+span.slidetooltip input{
+  /*width:90%;*/
+  background-color: transparent;
+  border: 0 none;
+  color: #FFFFFF;
+  font-size: 9px;
+}
+span.slidetooltip.left:after{
+	left: 50px;
+}
+span.slidetooltip.right:after{
+	left: 50px;
+}
+
+.range{
+  height:20px;
+  margin-top:120px;
+  left: 45px;
+  position:relative;	
+}
+.range.ui-slider-horizontal .ui-slider-range{
+	opacity:0.65;	
+}
+.range .ui-slider-handle{
+  height:26px;
+  opacity:0.7;	
+}
+.range .slider-month{    
+	border-left: 1px solid grey;
+	margin-right: -1px; /* remove space taken by border */
+	color: blue;
+	height: 18px;
+	margin-top: 1px;
+	text-align: center;
+	position: relative;
+	float: left;
+}
+.range .slider-month:first-child {
+  border-left:0;
+} 
+ul{margin:0px; padding:0px;}
+ul#custom-menu li{
+  position: relative;
+}
+ul#custom-menu{
+   position: absolute;
+   display: none;
+   /*sample style attributes follow*/
+   width: 75px;
+   background-color:#eee; 
+   border:1px solid #333;
+   font-size: 12px;
+   padding: 0;
+   z-index:3;
+}
+
+ul#custom-menu li{
+	 cursor:pointer;
+   margin: 3px;
+   padding: 3px;
+   background-color:#eee; 
+   border-bottom:1px solid #333;
+   list-style: none;
+   color: black;
+}
+ul#custom-menu li{
+  display:none;	
+}
+ul#custom-menu li:last-child{
+	border-bottom:0;
+}
+ul#custom-menu li:hover{
+	background-color: lightsteelblue;
+	color:black;
+}
+.ui-icon {
+    background-image: url("base/bases/images/ui-icons_888888_256x240.png");
+    height: 16px;
+    width: 16px;
+}
+.ui-icon {
+    background-repeat: no-repeat;
+    display: block;
+    overflow: hidden;
+    text-indent: -99999px;
+}
+ul#custom-menu.add li.add{
+	border-bottom:0;
+	display:block;
+}
+ul#custom-menu.delete li.delete{
+	display:block;
+}
+
+.range.ui-slider div.ui-slider-range{
+	background: #33CC33 ;
+}
+.range.ui-slider div.ui-slider-range.elem1{
+  outline: 3px solid blue;
+}
+.range.ui-slider div.ui-slider-range.elem2{
+  outline: 3px solid orange;
+}
+.range.ui-slider div.ui-slider-range.elem3{
+  outline: 3px solid black;
+}
+
+/********** frecce slider beg      *******************
+.range.ui-slider a.ui-slider-handle{
+	background:none;
+	border:none;
+}
+.range.ui-slider a.ui-slider-handle.even:after{
+	    content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 14px;
+      border-style: solid;
+      border-color: transparent transparent transparent #000099;
+      top: 0px;
+      left: -6px;
+}
+.range.ui-slider a.ui-slider-handle.odd:after{
+	    content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-width: 14px;
+      border-style: solid;
+      border-color: transparent #000099 transparent transparent;
+      top: 0px;
+      left: -6px;
+}
+********** frecce slider End      *******************/
+
+span.ui-spinner{
+  float: left;
+    position: relative;	
+}
+
+	
+span.ui-maxmin {
+    float: left;
+    position: relative;
+}
+span.ui-maxmin .ui-buttons .ui-state-default{  
+  text-align:center;
+  height: 11px;
+  width: 20px;
+  cursor:pointer;
+  }
+span.ui-maxmin .ui-buttons .ui-state-default:hover{
+  border: 1px solid #999999;
+  color: black  ;
+}  
+span.ui-maxmin .ui-buttons .ui-state-default span{  
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;	
+  position: relative;
+  top: -4px;
+  font-size:10px;
+}
+
+.ui-datepicker{
+	display:none;
+}
+.ui-datepicker{
+  z-index:10 !important;	
+}
+
+th.monthhead span.spanMonth {
+	  overflow: hidden;
+    border-left: 1px solid white;
+    color: white;
+    float: left;
+    height: 100%;
+    margin-right: -1px;
+    margin-top: 1px;
+    position: relative;
+    text-align: center;
+    display: block;
+}
+
+th.monthhead span.spanMonth:first-child {
+  border-left:0;
+} 
+
+td.doact{
+  width:20px;	
+}

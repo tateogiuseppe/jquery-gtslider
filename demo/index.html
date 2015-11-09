@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+/************************************************************************************
+ * jquery.multiselect 0.0.1                                    Created: 16/07/2013  *
+ *                                                             BY Tateo Giuseppe    *
+ *                                                                                  *
+ ************************************************************************************/
+-->
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>
+  <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.17.min.js"></script>
+  <script type="text/javascript" src="js/jquery.gtslider.min.js"></script>
+	
+	<link type="text/css" rel="stylesheet" href="css/base/ui.base.css"/>
+  <link type="text/css" rel="stylesheet" href="css/base/ui.theme.css"/>
+  <link type="text/css" rel="stylesheet" href="css/jquery.multislider.css"/>
+	<script>
+	$(document).ready(function(){
+		console.log("Start");
+		$(".btn-start").die("click").live("click",function(){
+			var values=[];
+			$(".start-val",$(".ipt-container")).each(function(j,v){
+				values.push(parseInt ($(v).val()));
+			});
+			values.sort();
+			console.log(values);
+			$(".range").gtslider({
+			  range: true,
+	      min: 0,
+	      step:1,
+	      max: 100 ,
+	      values: values/*,
+	      showCalendar:true*/
+			});
+		});
+		console.log("end");
+	});
+	</script>
+  </head>
+	<body>
+	<div><button class="btn-start">START</button></div>
+	<div class="ipt-container">
+		<input type="number" class="start-val" value="10"/>
+		<input type="number" class="start-val" value="30"/>
+		<input type="number" class="start-val" value="70"/>
+		<input type="number" class="start-val" value="80"/>
+	</div>
+	<div id="browse" style="width:90%">
+		<div class="range"></div>
+		<div class="tableWrap"></div>
+	</div>
+	</body>
+</html>
