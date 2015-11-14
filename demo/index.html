@@ -19,20 +19,65 @@
 	<script>
 	$(document).ready(function(){
 		console.log("Start");
+		$(".ipt-valtype",$(".ipt-container")).die("change").live("change",function(){
+			var self=$(this),
+			val=self.val();
+			switch(val) {
+  			case 'int':
+  			$(".start-val").each(function(i,v){
+  				var Val=$(v).val()
+  				,dt=new Date();
+  				$(v).val("").prop('type','number');
+  				console.log(Val);
+  				console.log(parseInt((new Date(Val)-new Date() )/ 86400000) );
+  				$(v).val(parseInt((new Date(Val)-new Date() )/ 86400000));
+  			});
+  			break;
+  			case 'date':
+  			$(".start-val").each(function(i,v){
+  				var Val=parseInt($(v).val())
+  				,dt=new Date();
+  				$(v).val("").prop('type','date');
+  				dt.setDate(new Date(dt).getDate()+Val	);
+  				$(v).val(dt.toISOString().substr(0,10));
+  			});
+  			break;
+			}
+		});
 		$(".btn-start").die("click").live("click",function(){
-			var values=[];
+			var values=[]
+			,valType=$(".ipt-valtype",$(".ipt-container")).val();
 			$(".start-val",$(".ipt-container")).each(function(j,v){
-				values.push(parseInt ($(v).val()));
+				if($(v).val()!=''){
+					if(valType=='int') values.push(parseInt ($(v).val()));
+				  else if(valType=='date') values.push( new Date ($(v).val()));
+				}
 			});
+			
 			values.sort();
-			console.log(values);
+			
+//			tmpData=new Date();
+//				tmpData.setDate(new Date(tmpData).getDate()+parseInt(val));
+      var rangeTp=(($(".ipt-rangetp").val()=='true')?true:$(".ipt-rangetp").val())
+      ,minV=0
+      ,maxV=365;
+      if($(".ipt-valtype",$(".ipt-container")).val()=='date'){
+	      minV=new Date();
+        maxV=new Date(new Date().setDate(new Date().getDate()+maxV));
+	    }
+      console.log(values[0] instanceof Date);
+      console.log(minV instanceof Date);
+      console.log(maxV instanceof Date);
 			$(".range").gtslider({
-			  range: true,
-	      min: 0,
+			  range:rangeTp,
+			  //orientation : "vertical",
+	      min: minV,
 	      step:1,
-	      max: 100 ,
-	      values: values/*,
-	      showCalendar:true*/
+	      max: maxV ,
+	      values: values,
+	      datevalues:null,
+	      valtype:$(".ipt-valtype",$(".ipt-container")).val(),
+	      showCalendar:$(".show-cal",$(".ipt-container")).is(':checked')
 			});
 		});
 		console.log("end");
@@ -42,6 +87,9 @@
 	<body>
 	<div><button class="btn-start">START</button></div>
 	<div class="ipt-container">
+		<input type="checkbox" class="show-cal"/>Show Calendar
+    <select class="ipt-rangetp"><option value="true" selected>Range</option><option value="multi">Multi Range</option></select>
+		<select class="ipt-valtype"><option value="int" selected>Number</option><option value="date">Date</option></select>
 		<input type="number" class="start-val" value="10"/>
 		<input type="number" class="start-val" value="30"/>
 		<input type="number" class="start-val" value="70"/>
