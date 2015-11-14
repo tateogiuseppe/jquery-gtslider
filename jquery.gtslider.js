@@ -69,7 +69,8 @@ $.widget( "ui.gtslider", $.ui.mouse, {
         showCalendar:false,
         valtype:"int",
         datevalues:null,
-        startDt:new Date()
+        startDate:new Date(),
+        endDate:new Date()
     },
     /** [GT] ++ **/
     dateDiff: function(dt1,dt2){
@@ -113,11 +114,41 @@ $.widget( "ui.gtslider", $.ui.mouse, {
     /** [GT] -- **/
     _create: function() {
         var self = this,
-            o = this.options,
-            existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default ui-corner-all" ),
+            o = this.options;
+        if(o.valtype=='date'){
+        	/**
+        	o.min=0;
+        	o.step=1;
+        	o.max=self.dateDiff(o.startDate,o.endDate);
+        	for(var k=0;o.values.length;k++)o.values[k]=self.dateDiff(o.startDate,new Date(o.values[k]));
+        	**/
+        	o.step=86400000;
+        	o.min=o.min.getTime();
+        	o.max=o.max.getTime();
+        	if(o.range)o.values.sort(function(a,b){return a.getTime()-b.getTime();});
+        }else if(o.range){
+        	o.values.sort();
+        }
+        if (o.range === 'multi'&& $.isArray( o.values )&&o.values.length % 2 != 0){
+        	this.element
+          .removeClass( "ui-slider" +
+              " ui-slider-horizontal" +
+              " ui-slider-vertical" +
+              " ui-slider-disabled" +
+              " ui-widget" +
+              " ui-widget-content" +
+              " ui-corner-all" )
+          .removeData( "gtslider" )
+          .unbind( ".slider" );
+					throw 'The item numer must be paired (array length % 2 = 0)';
+        }
+        console.log(o);
+        
+        var existingHandles = this.element.find( ".ui-slider-handle" ).addClass( "ui-state-default ui-corner-all" ),
             handle = "<a class='ui-slider-handle ui-state-default ui-corner-all' href='#'></a>",
             handleCount = ( o.values && o.values.length ) || 1,
             handles = [];
+        
         this._keySliding = false;
         this._mouseSliding = false;
         this._animateOff = true;
@@ -144,11 +175,9 @@ $.widget( "ui.gtslider", $.ui.mouse, {
                 if ( o.values.length && o.values.length !== 2 ) {
                     o.values = [ o.values[0], o.values[0] ];
                 }
-                [GT]
-                */
+                [GT]*/
             }
             /*edit [GT] beg*/
-            
             this.range=new Array(
                 $( "<div></div>" )
                 .appendTo( this.element )
@@ -301,7 +330,7 @@ $.widget( "ui.gtslider", $.ui.mouse, {
         this._refreshValue();
 
         this._animateOff = false;
-        if(o.showCalendar)this._initDate(new Date(2015,05,01),new Date(2015,10,30));
+        if(o.showCalendar)this._initDate(new Date(o.min),new Date(o.max));
     },
 
     destroy: function() {
@@ -590,16 +619,33 @@ $.widget( "ui.gtslider", $.ui.mouse, {
                 }
             }
         } else {
-            return this._values();
+        	vals=this._values().slice();
+        	if(this.options.valtype=='date') {
+        	  for(d=0;d<vals.length;d++)
+        	  	vals[d]=new Date(vals[d]);
+        	}
+        	return vals;
         }
     },
-    /* [GT] add Beg */
-datevalues: function(  ) {
-	var val=this._values();
-	var tmpData=new Date(this.options.startDt);
-  return tmpData.setDate(new Date(tmpData).getDate()+parseInt(val));
-},
-/* [GT] add End */
+    /* [GT] add Beg *
+		datevalues: function(  ) {
+			var self=this
+			,val=self._values()
+			,tmpData
+			,dt;
+			if($.isArray(val)){
+				tmpData=[];
+				for(v in val){
+					dt=new Date();
+					tmpData.push(dt.setDate(new Date(dt).getDate()+parseInt(val[v])));
+				}
+			}else{
+				tmpData=new Date();
+				tmpData.setDate(new Date(tmpData).getDate()+parseInt(val));
+			}
+			return tmpData;
+		},
+		* [GT] add End */
     _setOption: function( key, value ) {
         var i,
             valsLength = 0;
@@ -727,10 +773,10 @@ datevalues: function(  ) {
                 valPercent = ( self.values(i) - self._valueMin() ) / ( self._valueMax() - self._valueMin() ) * 100;
                 _set[ self.orientation === "horizontal" ? "left" : "bottom" ] = valPercent + "%";
                 $( this ).stop( 1, 1 )[ animate ? "animate" : "css" ]( _set, o.animate );
-                if ( self.options.range === true || self.options.range === "multi" ) {
+                if ( o.range === true || o.range === "multi" ) {
                     if ( self.orientation === "horizontal" ) {
                     	/*edit  [GT] beg */
-                        if(self.options.range === "multi"){ /* multi */
+                        if(o.range === "multi"){ /* multi */
 	                        
 	                        if ( (i%2) === 0 ) {
 	                            self.range[Math.floor(i/2)].stop( 1, 1 )[ animate ? "animate" : "css" ]( { left: valPercent + "%" }, o.animate );
