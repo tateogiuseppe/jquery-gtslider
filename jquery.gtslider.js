@@ -1,6 +1,8 @@
 /**
  * Jquery Multislider (https://github.com/tateogiuseppe/jquery-gtslider)
- * 
+ *
+ * Copyright 2015 jQuery Foundation and other contributors; Licensed MIT
+ *
  * Apache License, Version 2.0:
  * Copyright (c) 2012 - 2015 Giuseppe Tateo
  * 
