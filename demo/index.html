@@ -9,8 +9,8 @@
 -->
 <head>
 <meta http-equiv='Content-Type' content='text/html; charset=ISO-8859-1'>
-  <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.8.17.min.js"></script>
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.11.4.min.js"></script>
   <script type="text/javascript" src="js/jquery.gtslider.min.js"></script>
 	
 	<link type="text/css" rel="stylesheet" href="css/base/ui.base.css"/>
@@ -19,7 +19,19 @@
 	<script>
 	$(document).ready(function(){
 		console.log("Start");
-		$(".ipt-valtype",$(".ipt-container")).die("change").live("change",function(){
+		slideCallback=function( event, ui ) {
+			
+        var handle=$(ui.handle),
+            offSet=handle.offset()
+            values=ui.values
+            thisValue=ui.value
+            pivot=values.indexOf(thisValue);
+      if($(".ipt-valtype",$(".ipt-container")).val()=='date')
+  		  thisValue=(new Date(thisValue).toISOString().substr(0,10));
+      $(".start-val:eq("+pivot+")").val(thisValue);
+    }
+		
+		$(".ipt-valtype",$(".ipt-container")).off("change").on("change",function(){
 			var self=$(this),
 			val=self.val();
 			switch(val) {
@@ -28,8 +40,6 @@
   				var Val=$(v).val()
   				,dt=new Date();
   				$(v).val("").prop('type','number');
-  				console.log(Val);
-  				console.log(parseInt((new Date(Val)-new Date() )/ 86400000) );
   				$(v).val(parseInt((new Date(Val)-new Date() )/ 86400000));
   			});
   			break;
@@ -44,7 +54,7 @@
   			break;
 			}
 		});
-		$(".btn-start").die("click").live("click",function(){
+		$(".btn-start").off("click").on("click",function(){
 			var values=[]
 			,valType=$(".ipt-valtype",$(".ipt-container")).val();
 			$(".start-val",$(".ipt-container")).each(function(j,v){
@@ -54,7 +64,6 @@
 				}
 			});
 			
-			values.sort();
 			
 //			tmpData=new Date();
 //				tmpData.setDate(new Date(tmpData).getDate()+parseInt(val));
@@ -65,9 +74,6 @@
 	      minV=new Date();
         maxV=new Date(new Date().setDate(new Date().getDate()+maxV));
 	    }
-      console.log(values[0] instanceof Date);
-      console.log(minV instanceof Date);
-      console.log(maxV instanceof Date);
 			$(".range").gtslider({
 			  range:rangeTp,
 			  //orientation : "vertical",
@@ -77,7 +83,9 @@
 	      values: values,
 	      datevalues:null,
 	      valtype:$(".ipt-valtype",$(".ipt-container")).val(),
-	      showCalendar:$(".show-cal",$(".ipt-container")).is(':checked')
+	      showCalendar:$(".show-cal",$(".ipt-container")).is(':checked'),
+	      slide: function( event, ui ) {slideCallback( event, ui )},
+        change: function( event, ui ) {slideCallback( event, ui )}
 			});
 		});
 		console.log("end");
